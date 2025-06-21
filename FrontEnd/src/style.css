@@ -1,16 +1,18 @@
 body{
-    background:#b069b0;
+    background:#2b2b2b;
     margin: 0%;
     padding: 0%;
+    color: #fff;
 }
 .form{
 
     border: 1px solid black;
-    display: flex;
+    display: grid;
     width: 100%;
-    flex-direction: row;
+    /* flex-direction: row; */
     justify-content: space-around;
-    align-items: center;
+    /* align-items: center; */
+  grid-template-columns: 3fr 1fr;
 }
 .card{
  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
@@ -20,7 +22,8 @@ body{
 #map { height: 60vh;
     
     width: 100%;
-  cursor: pointer;  
+  cursor: pointer;
+  /* z-index: -1;   */
  }
 .right{
 
@@ -93,3 +96,56 @@ width: 100%;
   .latlong_button:hover {
     background-image: linear-gradient(to right, #d843cc, #b069b0);
   }
+
+.loading_overlay{
+position: fixed; /* Sit on top of the page content */
+    display: none;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.8); /* Black background with opacity */
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
+}
+.loader1 {
+  width: fit-content;
+  font-size: 40px;
+  font-family: system-ui,sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #0000;
+  -webkit-text-stroke: 1px #fff;
+  background: conic-gradient(#fff 0 0) 0/0% 100% no-repeat text;
+  animation: l1 1s linear infinite;
+}
+.loader1:before {
+  content: "Loading.....";
+}
+@keyframes l1 {
+  to{background-size: 120% 100%}
+}
+.loader2 {
+  width: fit-content;
+  font-size: 20px;
+  font-family: system-ui,sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #0000;
+  -webkit-text-stroke: 1px #fff;
+  background: conic-gradient(#fff 0 0) 0/0% 100% no-repeat text;
+  animation: l1 1s linear infinite;
+}
+.loader2:before {
+  content: "SolarAI by Pazim";
+}
+.output{
+    display: flex;
+    justify-content: space-around;
+
+}

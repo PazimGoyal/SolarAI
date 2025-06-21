@@ -2,14 +2,14 @@ import logging as log
 
 import pvlib
 import pandas as pd
+import numpy as np
 
 from Aerialytic import settings
-import numpy as np
+
 SolarAnywhere_Key = settings.SOLAR_ANYWHERE_KEY
 
 
-def get_optimal_tilt(latitude,longitude):
-
+def get_optimal_tilt(latitude, longitude):
     # tilt = latitude * 0.76 + 3.1  # NREL approximate annual optimal tilt
 
     """
@@ -30,7 +30,7 @@ def get_optimal_tilt(latitude,longitude):
     site = pvlib.location.Location(latitude, longitude, tz=tz)
 
     # --- Time and solar data ---
-    times = pd.date_range('2025-01-01', '2025-12-31', freq='H', tz=tz)
+    times = pd.date_range('2025-01-01', '2025-12-31', freq='h', tz=tz)
     solar_pos = site.get_solarposition(times)
     clearsky = site.get_clearsky(times)
 
@@ -55,9 +55,8 @@ def get_optimal_tilt(latitude,longitude):
             max_poa = total_poa
             best_tilt = tilt
 
-    print(best_tilt,max_poa)
-    return {"best_tilt":int(best_tilt),
-            "max_poa":int(max_poa)}
+    return {"best_tilt": float(best_tilt),
+            "max_poa": float(max_poa)}
 
 
 def get_solar_intensity(latitude, longitude, start, end):

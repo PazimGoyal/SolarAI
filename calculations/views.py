@@ -1,21 +1,10 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 
-import pvlib #using pvlib liberary
-import pandas as pd #using pandas
-from datetime import datetime as dt
-
-
-coordinates = {
-    "x": 43.704698,
-    "y": -79.755772
-
-}
+from .pvlib_cal import *
 
 
 def index(request):
-    # return render(request,"")
-    answer = {
-        "a": 23,
-        "b": 43
-    }
-    return JsonResponse(answer)
+        latitude = 43.7
+        longitude = -79.42
+        solpos = get_optimal_tilt(latitude, longitude)
+        return JsonResponse(solpos)

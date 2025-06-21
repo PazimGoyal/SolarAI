@@ -25,7 +25,8 @@ SECRET_KEY = '&q57!ivytcwzykfio1r*l8yi=70r3=bez8f9cj6-2a@vp+s0(f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000/']
 
 
 # Application definition
@@ -120,3 +121,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+SOLAR_ANYWHERE_KEY="C6TUkJKAlRLANFeK4wT4a#9E#uZabffR2WWyjOp#u8KORRQcFiqJETiRcIddPpsN" #normally obtained from .env file
+# SOLAR_ANYWHERE_KEY="4nQe$UkWM$A1H3mWWVUmLEESm4m$HPIFYHlN1x#KRT4UVJJdvz9u9YFLSqlx7idi" #normally obtained from .env file

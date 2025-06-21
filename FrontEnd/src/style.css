@@ -1,0 +1,95 @@
+body{
+    background:#b069b0;
+    margin: 0%;
+    padding: 0%;
+}
+.form{
+
+    border: 1px solid black;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+.card{
+ box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.1);
+
+}
+#map { height: 60vh;
+    
+    width: 100%;
+  cursor: pointer;  
+ }
+.right{
+
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+height: 60vh;
+width: 100%;
+}
+.searchbar{
+    display: flex;
+    height: 25%;
+}
+ form {
+    padding: 20px;
+    width: auto;
+    height: 100%;
+  }
+  h2,h3, h4 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #fff;
+  }
+.address_display{
+    height: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #f0f0f0;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  .search_button{
+    border-radius: 6px;
+
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    height: auto;
+    border: 1px solid #b069b0;
+    cursor:pointer;
+  }
+
+  .latlong_button {
+    width: 100%;
+    padding: 12px;
+    background-color: #c00cba;
+    background-image: linear-gradient(to right, #b069b0, #d843cc);
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .latlong_button:hover {
+    background-image: linear-gradient(to right, #d843cc, #b069b0);
+  }

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SolarAI</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+
+<link rel="stylesheet" href="./src/style.css" />
+</head>
+<body>
+  <h1>Solar AI by Pazim Goyal</h1>
+<div class="form">
+    <div id="map" class="card"></div>
+    <div class="right">
+
+      <form  class="card searchbar">
+  <input id="search_address" type="text" placeholder="Search Address....">
+    <button class="search_button"   type="button" onclick="fetch_latlong()">🔍</button>
+</form>
+<div class="card address_display">
+  <h3 id="disp_address">Address</h3>
+</div>
+
+<form class="card">
+    <label for="latitude">Latitude:</label>
+    <input type="number" step="any" id="latitude" name="latitude" required><br><br>
+
+    <label for="longitude">Longitude:</label>
+    <input type="number" step="any" id="longitude" name="longitude" required><br><br>
+
+    <label for="offset">Offset Angle (optional):</label>
+    <input type="number" step="any" id="offset" name="offset"><br><br>
+
+    <button class="latlong_button" type="submit">Submit</button>
+</form>
+</div>
+</div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

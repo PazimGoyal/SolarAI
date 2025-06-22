@@ -1,4 +1,5 @@
 /FrontEnd/node_modules
-/SolarAI/venv
-/SolarAI/venv
+/SolarAI/SolarAI/venv
 SolarAI/requirements.txt
+/SolarAI/venv
+*/.idea

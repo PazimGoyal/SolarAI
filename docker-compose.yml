@@ -1,0 +1,20 @@
+version: '3.9'
+
+services:
+  backend:
+    build: ./SolarAI
+    container_name: SolarAI-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./SolarAI:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  frontend:
+    build: ./FrontEnd
+    container_name: SolarAI-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend

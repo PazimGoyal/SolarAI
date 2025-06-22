@@ -20,13 +20,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const offset = document.getElementById("offset");
     const locate_marker = document.getElementById("locate_marker");
     // functions
-    function loadingBar() {
+    function loadingBar(enable) {
         const div = document.getElementById("loading_overlay");
-        if (div.style.display === "flex" || !div.style.display) {
-            div.style.display = "none"; // or "flex", "grid", etc.
+        if (enable) {
+            div.style.display = "flex"; // or "flex", "grid", etc.
         }
         else {
-            div.style.display = "flex";
+            div.style.display = "none";
         }
     }
     function updateForm(latitude, longitude) {
@@ -69,11 +69,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
     search_form.addEventListener("submit", (event) => {
-        loadingBar();
+        loadingBar(true);
         event.preventDefault();
         const address = document.getElementById("search_address");
         fetch_latlong(address.toString());
-        loadingBar();
+        loadingBar(false);
     });
     lat_long_form.addEventListener("submit", (event) => {
         event.preventDefault();
@@ -82,9 +82,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const offset_val = offset.value.trim();
         if (!latitude_val || !longitude_val)
             return;
-        loadingBar();
+        loadingBar(true);
         try {
-            const response = fetch("http://127.0.0.1:8000/", {
+            const response = fetch("http://localhost:8000", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -123,11 +123,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 if ("optimal Azimuth" in res) {
                     plotlines(Number(latitude_val), Number(longitude_val), res["optimal Azimuth"]);
                 }
-                loadingBar();
+                loadingBar(false);
+            }).catch((err) => {
+                alert("Error in Backend");
+                loadingBar(false);
             });
         }
         catch (error) {
-            loadingBar();
+            loadingBar(false);
             console.error("POST request failed:", error);
         }
     });
@@ -151,14 +154,7 @@ document.addEventListener("DOMContentLoaded", () => {
             color: "red",
             weight: 3,
         }).addTo(layerGroup);
-        // Optional: arrow icon (simulate direction)
-        // L.circleMarker([endLat, endLng], {
-        //   radius: 4,
-        //   color: "red",
-        //   fillOpacity: 3,
-        // }).addTo(layerGroup);
         const arrowSize = 0.0003;
-        // const arrowTip = [endLat, endLng];
         const leftWingc = [
             endLat - arrowSize * Math.cos(azimuthRad - Math.PI / 6),
             endLng - arrowSize * Math.sin(azimuthRad - Math.PI / 6),

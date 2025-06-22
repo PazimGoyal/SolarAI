@@ -1,5 +1,7 @@
 /FrontEnd/node_modules
-/SolarAI/SolarAI/venv
 SolarAI/requirements.txt
 /SolarAI/venv
 */.idea
+*/__pycache__
+SolarAI/Aerialytic/__pycache__
+*/__pycache__/*

@@ -33,12 +33,12 @@ document.addEventListener("DOMContentLoaded", () => {
   ) as HTMLButtonElement;
 
   // functions
-  function loadingBar(): void {
+  function loadingBar(enable: boolean): void {
     const div = document.getElementById("loading_overlay") as HTMLInputElement;
-    if (div.style.display === "flex" || !div.style.display) {
-      div.style.display = "none"; // or "flex", "grid", etc.
+    if (enable) {
+      div.style.display = "flex"; // or "flex", "grid", etc.
     } else {
-      div.style.display = "flex";
+      div.style.display = "none";
     }
   }
 
@@ -98,14 +98,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   search_form.addEventListener("submit", (event: SubmitEvent) => {
-    loadingBar();
+    loadingBar(true);
     event.preventDefault();
 
     const address = document.getElementById(
       "search_address"
     ) as HTMLInputElement;
     fetch_latlong(address.toString());
-    loadingBar();
+    loadingBar(false);
   });
 
   lat_long_form.addEventListener("submit", (event: SubmitEvent) => {
@@ -117,9 +117,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!latitude_val || !longitude_val) return;
 
-    loadingBar();
+    loadingBar(true);
     try {
-      const response = fetch("http://127.0.0.1:8000/", {
+      const response = fetch("http://localhost:8000", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -170,13 +170,21 @@ document.addEventListener("DOMContentLoaded", () => {
               res["optimal Azimuth"]
             );
           }
+      loadingBar(false);
 
-          loadingBar();
+        }).catch((err) => {
+          alert("Error in Backend");
+      loadingBar(false);
+        
         });
     } catch (error) {
-      loadingBar();
+      loadingBar(false);
       console.error("POST request failed:", error);
     }
+
+    
+    
+
   });
 
   locate_marker.addEventListener("click", () => {
@@ -204,15 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     ).addTo(layerGroup);
 
-    // Optional: arrow icon (simulate direction)
-    // L.circleMarker([endLat, endLng], {
-    //   radius: 4,
-    //   color: "red",
-    //   fillOpacity: 3,
-    // }).addTo(layerGroup);
-
     const arrowSize = 0.0003;
-    // const arrowTip = [endLat, endLng];
     const leftWingc = [
       endLat - arrowSize * Math.cos(azimuthRad - Math.PI / 6),
       endLng - arrowSize * Math.sin(azimuthRad - Math.PI / 6),

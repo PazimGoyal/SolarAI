@@ -65,5 +65,7 @@ run localhost:3000
 
 
 ![Screenshot 2025-06-22 at 1 26 51 PM](https://github.com/user-attachments/assets/d8a52f80-ee23-454b-81fe-8afc6cb51608)
+![Screenshot 2025-06-22 at 1 26 40 PM](https://github.com/user-attachments/assets/4eeb331e-ee8e-4932-9362-602002a7c3e1)
+![Screenshot 2025-06-22 at 1 26 23 PM](https://github.com/user-attachments/assets/bb146be4-a65a-4512-b226-cff429b51cba)
 
 

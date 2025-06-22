@@ -1,5 +1,4 @@
 import logging as log
-
 import pvlib
 import pandas as pd
 import numpy as np
@@ -9,7 +8,23 @@ from Aerialytic import settings
 SolarAnywhere_Key = settings.SOLAR_ANYWHERE_KEY
 
 
-def get_optimal_tilt(latitude, longitude):
+def getSolarIrradianceData(latitude, longitude, times):
+    data = None
+    try:
+        # data = get_solarAnywhere_intensity(latitude, longitude, times[0], times[-1])
+        pass
+    except:
+        data = None
+
+    if not data or data is None:
+        site = pvlib.location.Location(latitude, longitude, tz="UTC")
+        solar_pos = site.get_solarposition(times)
+        clearsky = site.get_clearsky(times)
+
+    return clearsky, solar_pos
+
+
+def get_optimal_tilt(latitude, longitude, offset_angle):
     # tilt = latitude * 0.76 + 3.1  # NREL approximate annual optimal tilt
 
     """
@@ -17,49 +32,59 @@ def get_optimal_tilt(latitude, longitude):
 
     For winter: tilt = latitude + 15
     """
+    times = pd.date_range('2025-01-01', '2025-12-31', freq='h', tz="UTC")
 
-    times = pd.date_range("2024-06-21", "2024-06-21 23:59", freq="30min", tz='UTC')
-    altitude = 100  # in meters
-    # get_solar_intensity(latitude, longitude, '2025-01-01T00:00:00Z', '2025-06-30T23:59:00Z')
-
-    # Call SPA for high-precision solar position
-    # solpos = pvlib.solarposition.spa_python(times, latitude, longitude, altitude)
-    # return solpos
-    tz = 'America/Toronto'
-
-    site = pvlib.location.Location(latitude, longitude, tz=tz)
-
-    # --- Time and solar data ---
-    times = pd.date_range('2025-01-01', '2025-12-31', freq='h', tz=tz)
-    solar_pos = site.get_solarposition(times)
-    clearsky = site.get_clearsky(times)
-
+    clearsky, solar_pos = getSolarIrradianceData(longitude=longitude, latitude=latitude, times=times)
     # --- Optimize tilt ---
-    tilts = np.arange(0, 91, 1)  # 0 to 90 degrees
+    tilts = np.arange(0, 91, 5)  # 0 to 90 degrees
+    azimuth_range = np.arange(90, 271, 10)  # sweep east to west
+
+    best_total_irradiance = 0
     best_tilt = 0
-    max_poa = 0
+    best_azimuth = 180  # fallback
 
     for tilt in tilts:
-        poa = pvlib.irradiance.get_total_irradiance(
-            surface_tilt=tilt,
-            surface_azimuth=180,  # South-facing (fixed azimuth)
-            dni=clearsky['dni'],
-            ghi=clearsky['ghi'],
-            dhi=clearsky['dhi'],
-            solar_zenith=solar_pos['apparent_zenith'],
-            solar_azimuth=solar_pos['azimuth']
-        )['poa_global']
+        for azimuth in azimuth_range:
+            effective_tilt = tilt + offset_angle
+            poa = pvlib.irradiance.get_total_irradiance(
+                surface_tilt=effective_tilt,
+                surface_azimuth=azimuth,
+                dni=clearsky['dni'],
+                ghi=clearsky['ghi'],
+                dhi=clearsky['dhi'],
+                solar_zenith=solar_pos['apparent_zenith'],
+                solar_azimuth=solar_pos['azimuth']
+            )['poa_global']
 
-        total_poa = poa.sum()
-        if total_poa > max_poa:
-            max_poa = total_poa
-            best_tilt = tilt
+            total_poa = poa.sum()
+            if total_poa >= best_total_irradiance:
+                best_total_irradiance = total_poa
+                best_tilt = tilt
+                best_azimuth = azimuth
+            # print(f"found best for tilt {tilt} effective tilt : {effective_tilt} best irraduance : {best_total_irradiance} or {total_poa} ... best tilt {best_tilt} and best azimuth {best_azimuth}" )
 
-    return {"best_tilt": float(best_tilt),
-            "max_poa": float(max_poa)}
+    # Return optimal tilt and azimuth
+
+    optimal_tilt = f' Tilt : {round(best_tilt, 2)} deg + offset : {offset_angle} deg = {round(best_tilt, 2) + offset_angle}'
+    times = pd.date_range('2025-01-01', '2025-12-31', freq='6h', tz="UTC")
+    clearsky, _ = getSolarIrradianceData(longitude=longitude, latitude=latitude, times=times)
+    ghi = clearsky['ghi'].tolist()
+    dni = clearsky['dni'].tolist()
+    dhi = clearsky['dhi'].tolist()
+    timestamps = times.strftime('%m/%d/%Y , %H:%M').tolist()
+
+    return {
+        'optimal Tilt': optimal_tilt,
+        'optimal Azimuth': float(best_azimuth),
+        'Best Total Irradiance': float(total_poa),
+        "tab_GHI": ghi,
+        "tab_DNI":dni,
+        "tab_DHI":dhi,
+        "tab_timestamp": timestamps
+    }
 
 
-def get_solar_intensity(latitude, longitude, start, end):
+def get_solarAnywhere_intensity(latitude, longitude, start, end):
     """
     solar anywhere api
 
@@ -70,10 +95,9 @@ def get_solar_intensity(latitude, longitude, start, end):
     :param times:
     :return:
     """
-
-    start = pd.Timestamp(start)
-    end = pd.Timestamp(end)
     try:
+        start = pd.Timestamp.now(tz="UTC") - pd.Timedelta(days=1)
+        end = pd.Timestamp.now(tz="UTC")
         solar_insolation_intensity = pvlib.iotools.get_solaranywhere(latitude, longitude, SolarAnywhere_Key,
                                                                      start=start, end=end,
                                                                      source='SolarAnywhereLatest',
@@ -85,5 +109,6 @@ def get_solar_intensity(latitude, longitude, start, end):
                                                                      map_variables=True, timeout=300)
     except Exception as e:
         log.error(str(e))
+        return None
 
     return solar_insolation_intensity

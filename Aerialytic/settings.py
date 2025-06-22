@@ -127,4 +127,4 @@ CORS_ALLOW_ALL_ORIGINS = True
 STATIC_URL = '/static/'
 
 SOLAR_ANYWHERE_KEY="C6TUkJKAlRLANFeK4wT4a#9E#uZabffR2WWyjOp#u8KORRQcFiqJETiRcIddPpsN" #normally obtained from .env file
-# SOLAR_ANYWHERE_KEY="4nQe$UkWM$A1H3mWWVUmLEESm4m$HPIFYHlN1x#KRT4UVJJdvz9u9YFLSqlx7idi" #normally obtained from .env file
+SOLAR_ANYWHERE_KEY="PtULuPXPk#vMQjkKxxlOJcfGd5nNQZDzeGZx7F3JiHSX1#2q1GqI4RGqTEpbpbos" #normally obtained from .env file

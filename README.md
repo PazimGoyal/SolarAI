@@ -61,4 +61,9 @@ docker compose up --build
 
 run localhost:3000
 
+```
+
+
+![Screenshot 2025-06-22 at 1 26 51 PM](https://github.com/user-attachments/assets/d8a52f80-ee23-454b-81fe-8afc6cb51608)
+
 

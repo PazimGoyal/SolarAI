@@ -1,4 +1,4 @@
-#!/Users/pazim/projects/SolarAI/venv/bin/python
+#!/Users/pazim/projects/SolarAIProject/SolarAI/SolarAI/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

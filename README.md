@@ -3,6 +3,9 @@
 
 A full-stack application to calculate optimal solar panel **tilt** and **azimuth** based on geographic coordinates and optional offset angle, with optional solar insolation estimates and map visualization.
 
+## Logic used to calculate Tilt and azimuth
+The approach used to calculate tilt and azimuth is based on maximizing solar energy (irradiance). We test multiple combinations of tilt angles and directions (azimuths), calculate how much sunlight (POA – Plane of Array irradiance) each receives, and then select the combination that gives the highest value.
+
 
 
 ## Features

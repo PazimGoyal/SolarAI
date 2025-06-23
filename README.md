@@ -69,3 +69,17 @@ run localhost:3000
 ![Screenshot 2025-06-22 at 1 26 23 PM](https://github.com/user-attachments/assets/bb146be4-a65a-4512-b226-cff429b51cba)
 
 
+
+refrences:
+https://pvlib-python.readthedocs.io/en/stable/
+
+https://pvlib-python.readthedocs.io/en/stable/user_guide/getting_started/installation.html#nrel-spa-algorithm
+
+https://pvlib-python.readthedocs.io/en/stable/reference/solarposition.html
+
+
+https://pvlib-python.readthedocs.io/en/stable/reference/generated/pvlib.tracking.calc_surface_orientation.html
+
+https://leafletjs.com/examples/quick-start/
+
+

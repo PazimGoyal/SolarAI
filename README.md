@@ -73,7 +73,7 @@ run localhost:3000
 
 
 
-refrences:
+## Refrences:
 https://pvlib-python.readthedocs.io/en/stable/
 
 https://pvlib-python.readthedocs.io/en/stable/user_guide/getting_started/installation.html#nrel-spa-algorithm
